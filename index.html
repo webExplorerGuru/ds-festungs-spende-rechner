@@ -67,11 +67,11 @@
                       extract() {
                           this.totalResources = 0;
                           var a_all = this.input.split('|') 
-                          a_all.splice(0, 1) 
                           a_all.forEach((item, index) => { 
                               this.villageList.push(Number(item.substring(4, item.indexOf('.')) + item.substring(item.indexOf('.') + 1, item.indexOf('.') + 4)))
                           })
                           this.villageList.forEach((item) => {
+                            if(!isNaN(item)) {
                               if (item < 4000) {
                                   this.totalResources += 10000;
                               } else if (item < 6000) {
@@ -81,6 +81,7 @@
                               } else {
                                   this.totalResources += 25000;
                               }
+                            }
                           })
                           this.villageList = '';
                       },
