@@ -1,0 +1,120 @@
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+      <title>Festungs-Spenden-Rechner</title>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <meta name="robots" content="noindex, nofollow">
+      <meta name="googlebot" content="noindex, nofollow">
+      <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+      <style id="compiled-css" type="text/css">
+      @import url("//unpkg.com/element-ui@2.5.3/lib/theme-chalk/index.css");
+
+      .el-button {
+          margin-bottom: 10px;
+          width: 100%;
+          background: linear-gradient(to bottom, #b69471 0%, #9f764d 22%, #8f6133 30%, #6c4d2d 100%);
+          color: white;
+          display: block;
+      }
+
+      .el-button:focus {
+          color: white;
+      }
+
+      .bigger-text {
+          font-size: 20px;
+      }
+
+      #app {
+          margin: 20px;
+          color: #5b390d;
+      }
+
+      .el-row {
+          margin-bottom: 20px;
+      }
+
+      .el-button:hover {
+          color: #501010;
+      }
+
+      body {
+          background: #fff5da;
+      }
+      </style>
+      <script type="text/javascript">
+      window.onload = function() {
+
+              var Main = {
+                  data() {
+                      return {
+                          input: '',
+                          totalResources: 0,
+                          villageList: []
+                      };
+                  },
+                  computed: {},
+                  methods: {
+                      extract() {
+                          this.totalResources = 0;
+                          var a_all = this.input.split('|') 
+                          a_all.splice(0, 1) 
+                          a_all.forEach((item, index) => { 
+                              this.villageList.push(Number(item.substring(4, item.indexOf('.')) + item.substring(item.indexOf('.') + 1, item.indexOf('.') + 4)))
+                          })
+                          this.villageList.forEach((item) => {
+                              if (item < 4000) {
+                                  this.totalResources += 10000;
+                              } else if (item < 6000) {
+                                  this.totalResources += 15000;
+                              } else if (item < 8000) {
+                                  this.totalResources += 20000;
+                              } else {
+                                  this.totalResources += 25000;
+                              }
+                          })
+                          this.villageList = '';
+                      },
+                  }
+              };
+
+              var Ctor = Vue.extend(Main)
+              new Ctor().$mount('#app')
+      </script>
+  </head>
+
+  <body>
+      <script src="//unpkg.com/vue/dist/vue.js"></script>
+      <script src="//unpkg.com/element-ui@2.5.3/lib/index.js"></script>
+      <div id="app">
+          <el-row :gutter="16" justify="center">
+              <el-col :span="16">
+                  <div class="bigger-text">
+                      Dorfliste vom Profil hier einfügen:
+                  </div>
+                  <el-input @focus="$event.target.select()" 
+                  placeholder="Dörfer (2) Koordinaten Punkte
+  Ein Dorf  
+  424|496 10.129
+  Zwei Dorf 
+  421|499 4.737" v-model="input" type="textarea"></el-input>
+                  <el-button @click="extract">Rohstoffspende berechnen</el-button>
+              </el-col>
+              <el-col :span="16">
+                  <div class="bigger-text">
+                      Rohstoffspende gesamt: {{ totalResources }}
+                  </div>
+              </el-col>
+          </el-row>
+          <el-row>
+              Einstellungen gelten für Welt 167, Stamm: AKTIV<br>
+              Source-Code und Erklärungen: <a href="https://github.com/webExplorerGuru/ds-raubzug-rechner">Festungs-Spenden-Rechner</a><br>
+              Raubzug-Rechner: <a href="https://github.com/webExplorerGuru/ds-raubzug-rechner">ds-raubzug-rechner</a><br>
+              License: <a href="http://www.apache.org/licenses/">Apache License Version 2.0</a><br>
+              Stand: 15.06.2019
+          </el-row>    
+      </div>
+  </body>
+
+  </html>
